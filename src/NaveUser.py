@@ -14,6 +14,8 @@ class NaveUser(pygame.sprite.Sprite):
 
         self.image = pygame.image.load("static/images/cherry.jpeg")
         self.rect = self.image.get_rect()
+        self.__screen.blit(self.image, self.rect)
+        pygame.display.update()
         #self.mask = pygame.mask.from_surface(self.image)
 
 
@@ -23,7 +25,8 @@ class NaveUser(pygame.sprite.Sprite):
         """
         deslocamento = unidades * (50)
         print("Deslocamento:", deslocamento)
-        self.rect.move(deslocamento,0)
+
         self.__screen.fill((0,0,0))
+        self.rect = self.rect.move(deslocamento,0)
         self.__screen.blit(self.image, self.rect)
     
