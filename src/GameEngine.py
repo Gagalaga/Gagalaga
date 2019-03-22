@@ -1,5 +1,4 @@
 import pygame
-import logging
 
 from src.NaveUser import NaveUser
 
@@ -59,16 +58,18 @@ class GameEngine:
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                logging.info("pygame.QUIT pressed by user")
+                print("pygame.QUIT pressed by user")
                 self.__ended = True
                 self.__on_quit()
                 return
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_d:
-                    print("Letter D pressed by user")
-                    logging.info("Letter D pressed by user")
-                    self.nave.mover_direita(1)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_d]:
+            print("Letter D pressed by user")
+            self.nave.mover_horizontal(1)
+        if keys[pygame.K_a]:
+            print("Letter A pressed by user")
+            self.nave.mover_horizontal(-1)
 
 
     def __collisions(self):

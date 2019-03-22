@@ -19,11 +19,13 @@ class NaveUser(pygame.sprite.Sprite):
         #self.mask = pygame.mask.from_surface(self.image)
 
 
-    def mover_direita(self, unidades):
+    def mover_horizontal(self, unidades):
         """
         Move tantas unidades a direita.
+        Unidades > 0 => Direita.
+        Unidades < 0 => Esquerda.
         """
-        deslocamento = unidades * (50)
+        deslocamento = unidades * (10)
         print("Deslocamento:", deslocamento)
 
         self.__screen.fill((0,0,0))
