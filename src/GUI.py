@@ -1,16 +1,19 @@
 import pygame
 
+from src.Config import screen_configs as screen
+
 from src.GameEngine import GameEngine
 
 class GUI:
-    """Uma Interface Gráfica para o Usuário."""
+    """
+    Uma Interface Gráfica para o Usuário.
+    """
 
 
-    def __init__(self, size=[1000, 750]):
+    def __init__(self, size=[screen['largura'], screen['altura']]):
         """
-        size: default é 1000 de largura e 750 de altura.
+        size: default é o screen_configs em Configs.py.
         """
-        self.__size = size
 
         self.__configure_screen(size)
         self.__configure_sound()
@@ -33,9 +36,6 @@ class GUI:
         pygame.display.set_caption("Gagálaga - O Jogo")
 
 
-    def run(self):
-        """
-        Dá o pontapé no GameLoop.
-        """
-        game_engine = GameEngine(self.__screen)
-        game_engine.game_loop()
+    def get_screen(self):
+        return self.__screen
+

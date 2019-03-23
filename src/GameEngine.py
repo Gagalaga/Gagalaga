@@ -1,6 +1,7 @@
 import pygame
 
 from src.NaveUser import NaveUser
+from src.Config import cor_configs as cores
 
 class GameEngine:
     """
@@ -21,7 +22,9 @@ class GameEngine:
 
         # elementos do jogo propriamente dito
         # MODIFICAR SEM MODERAÇÃO
-        self.nave = NaveUser(self.__screen)
+        self.nave = NaveUser(self.__screen, (30, 800))
+        self.bots = []
+        self.tiros = []
 
 
     def game_loop(self):
@@ -36,13 +39,27 @@ class GameEngine:
 
     def __frame(self):
         """
-        Função que é executada a cada frame do jogo. 
-        fps = frames per second
+        Função que é executada a cada frame do jogo.
+        fps = frames per second.
+        1º) Espera o próximo frame
+        2°) "Apaga" a tela
+        3°) Calcula as novas posições e as plota
+        4°) Encerra o frame
         """
-        print("Updating frame...Now!")
-        pygame.display.flip()     
+        delta_t = self.__clock.tick(self.__fps)/1000
 
-        delta_t = self.__clock.tick(self.__fps)
+        self.__screen.fill(cores['black'])
+
+        for drawables in [self.nave] + self.bots + self.tiros:
+            drawables.atualiza_posicao(delta_t)
+
+        self.__event_handler()
+        if self.__ended:
+            return
+
+        for drawables in [self.nave] + self.bots + self.tiros:
+            drawables.draw()
+        pygame.display.flip()  
 
         # value = pygame.sprite.collide_mask(self.__nave1, self.__nave2)
         # print(value)
@@ -70,6 +87,9 @@ class GameEngine:
         if keys[pygame.K_a]:
             print("Letter A pressed by user")
             self.nave.mover_horizontal(-1)
+        if keys[pygame.K_w]:
+            print("Letter W pressed by user")
+            self.tiros.append(self.nave.atirar())
 
 
     def __collisions(self):
