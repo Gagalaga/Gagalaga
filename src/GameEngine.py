@@ -1,77 +1,73 @@
 import pygame
 
 from src.NaveUser import NaveUser
-from src.Config import cor_configs as cores
+from src.Config import color_configs as colors
+
 
 class GameEngine:
     """
-    Uma classe fundamental que abstrai o funcionamento dos componentes do jogo.
+    A fundamental class that abstracts the game's components' operation.
     """
-
 
     def __init__(self, screen):
         self.__screen = screen
 
-        # inicializando apropriadamente o Pygame
+        # Appropriately initializing the game
         self.__on_init()
 
-        # lidando com burocracias do GameLoop
+        # Setting basic features for the game functioning
         self.__clock = pygame.time.Clock()
         self.__fps = 10
         self.__ended = False
 
-        # elementos do jogo propriamente dito
-        # MODIFICAR SEM MODERAÇÃO
-        self.nave = NaveUser(self.__screen, (30, 800))
+        # Particular elements of the game
+        # Modifying area
+        self.nave = NaveUser(self.__screen, (30, 30))
         self.bots = []
-        self.tiros = []
-
+        self.shots = []
 
     def game_loop(self):
         """
-        Um wrapper do funcionamento da GameEngine.
+        A wrapper of the GameEngine's operation
         """
         print("Starting Game Loop at ${0} fps".format(self.__fps))
         self.__clock.tick()
         while not self.__ended:
             self.__frame()
 
-
     def __frame(self):
         """
-        Função que é executada a cada frame do jogo.
+
+        Executed at each frame
         fps = frames per second.
-        1º) Espera o próximo frame
-        2°) "Apaga" a tela
-        3°) Calcula as novas posições e as plota
-        4°) Encerra o frame
+        1º) Waits the next frame
+        2°) Clear screen
+        3°) Calculates and plots the new parameters
+        4°) Ends the present frame
         """
-        delta_t = self.__clock.tick(self.__fps)/1000
+        delta_t = self.__clock.tick(self.__fps) / 1000
 
-        self.__screen.fill(cores['black'])
+        self.__screen.fill(colors['black'])
 
-        for drawables in [self.nave] + self.bots + self.tiros:
-            drawables.atualiza_posicao(delta_t)
+        for drawable in [self.nave] + self.bots + self.shots:
+            drawable.updates_position(delta_t)
 
         self.__event_handler()
         if self.__ended:
             return
 
-        for drawables in [self.nave] + self.bots + self.tiros:
-            drawables.draw()
-        pygame.display.flip()  
+        for drawable in [self.nave] + self.bots + self.shots:
+            drawable.draw()
+        pygame.display.flip()
 
         # value = pygame.sprite.collide_mask(self.__nave1, self.__nave2)
         # print(value)
 
         self.__event_handler()
 
-
     def __event_handler(self):
         """
-        Trata os eventos gerados pelo usuário.
-        Teclado: 'D'.
-        Tela: 'Quit'.
+        Treats the user generated events.
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -83,31 +79,27 @@ class GameEngine:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             print("Letter D pressed by user")
-            self.nave.mover_horizontal(1)
+            self.nave.horizontal_moving(1)
         if keys[pygame.K_a]:
             print("Letter A pressed by user")
-            self.nave.mover_horizontal(-1)
+            self.nave.horizontal_moving(-1)
         if keys[pygame.K_w]:
             print("Letter W pressed by user")
-            self.tiros.append(self.nave.atirar())
-
+            self.shots.append(self.nave.shooting())
 
     def __collisions(self):
         pass
 
-
     def __on_init(self):
         """
-        Método privado para lidar com a inicialização específica do PyGame.
+        Private method for treating specifically of pygame's initialization.
         """
         print("Initializing pygame in 3 ... 2 ... 1 ...")
         pygame.init()
 
-
     def __on_quit(self):
         """
-        Método privado para lidar com a finalização específica do PyGame. 
+        Private method for treating specifically of pygame's interrupting.
         """
         print("Quitting pygame in 3 ... 2 ... 1 ...")
         pygame.quit()
-        

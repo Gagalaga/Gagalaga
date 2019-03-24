@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Updates the current files in UBUNTU
+sudo apt-get update
+sudo apt-get upgrade
+
+# Install python3
+sudo apt install python3
+# Install pip
+sudo apt install python3-pip
+pip install --upgrade pip
+
+
+
