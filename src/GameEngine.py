@@ -3,6 +3,8 @@ import pygame
 from src.Background import Background
 from src.NaveUser import NaveUser
 
+from src.Config import color_configs as colors
+
 
 class GameEngine:
     """
@@ -22,7 +24,7 @@ class GameEngine:
 
         # Particular elements of the game
         # Modifying area
-        self.background = Background(self.__screen)
+        self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
         self.nave = NaveUser(self.__screen, (30, 30))
         self.bots = []
         self.shots = []
@@ -48,17 +50,21 @@ class GameEngine:
         """
         delta_t = self.__clock.tick(self.__fps) / 1000
 
-#        self.__screen.fill(colors['black'])
+        # Dispite the fact it may looks like trash, it keeps the image atualizing
+        self.__screen.fill(colors['black'])
 
-        for drawable in [self.background] + self.nave + self.bots + self.shots:
+        drawables = self.background + [self.nave] + self.bots + self.shots
+
+        for drawable in drawables:
             drawable.updates_position(delta_t)
 
         self.__event_handler()
         if self.__ended:
             return
 
-        for drawable in [self.background] + self.nave + self.bots + self.shots:
+        for drawable in drawables:
             drawable.draw()
+
         pygame.display.flip()
 
         # value = pygame.sprite.collide_mask(self.__nave1, self.__nave2)
@@ -78,20 +84,16 @@ class GameEngine:
                 return
 
         # Keep shoting all tyhe time
-        self.shots.append(self.nave.shooting)
+        self.shots.append(self.nave.shooting())
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            print("Letter D pressed by user")
             self.nave.horizontal_moving(1)
         if keys[pygame.K_a]:
-            print("Letter A pressed by user")
             self.nave.horizontal_moving(-1)
-        if keys[pygame.K_w]:
-            print("Letter W pressed by user")
-            self.nave.vertical_moving(1)
         if keys[pygame.K_s]:
-            print("Letter S pressed by user")
+            self.nave.vertical_moving(1)
+        if keys[pygame.K_w]:
             self.nave.vertical_moving(-1)
 
     def __collisions(self):

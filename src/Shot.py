@@ -13,10 +13,10 @@ class Shot(Drawable):
     """
 
     def __init__(self, current_position, current_velocity, screen):
-        Drawable.__init__(self, current_position, current_velocity, screen)
+        Drawable.__init__(self, current_position, current_velocity, screen, (5,10))
+        self._shotImage = pygame.image.load(os.path.abspath("static/Images/Player/player-gun.png"))
+        self._shotImage = pygame.transform.scale(self._shotImage, self._size)
+        self._shotImage = self._shotImage.convert()
 
     def draw(self):
-        self._shotImage = pygame.image.load(os.path.abspath("static/Images/Player/player-gun.png"))
-        self._shotImage = pygame.transform.scale(self._shotImage, (5, 10))
-        self._shotImage = self._shotImage.convert()
         self._screen.blit(self._shotImage, self._position)
