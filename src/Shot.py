@@ -1,4 +1,5 @@
 import pygame
+import os
 
 from src.Config import color_configs as colors
 
@@ -15,6 +16,7 @@ class Shot(Drawable):
         Drawable.__init__(self, current_position, current_velocity, screen)
 
     def draw(self):
-        self._surface = pygame.Surface((5, 10))
-        self._surface.fill(colors['white'])
-        self._screen.blit(self._surface, self._position)
+        self._shotImage = pygame.image.load(os.path.abspath("static/Images/Player/player-gun.png"))
+        self._shotImage = pygame.transform.scale(self._shotImage, (5, 10))
+        self._shotImage = self._shotImage.convert()
+        self._screen.blit(self._shotImage, self._position)
