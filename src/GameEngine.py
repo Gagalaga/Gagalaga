@@ -26,6 +26,8 @@ class GameEngine:
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
         self.nave = NaveUser(self.__screen, (30, 30))
+
+      
         self.bots = []
         self.shots = []
 
