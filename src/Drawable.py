@@ -2,27 +2,37 @@ import pygame
 
 from abc import ABCMeta, abstractmethod
 
+
 class Drawable:
     """
-    Uma classe abstrata que representa objetos móveis impressos na tela.
+    An abstract class that represent all the mobile objects of the game.
+    It's subclassed by each drawable element.
     """
 
     __metaclass__ = ABCMeta
 
-    def __init__(self, posicao_atual, velocidade_atual, screen):
-        self._posicao = posicao_atual
-        self._velocidade = velocidade_atual
+    def __init__(self, current_position, current_velocity, screen, size):
+        self._position = current_position
+        self._velocity = current_velocity
         self._screen = screen
+        self._size = size
 
+    def updates_position(self, delta_t):
+        self._position = (self._velocity[0] * delta_t + self._position[0],
+                          self._velocity[1] * delta_t + self._position[1])
+        return self._position
 
-    def atualiza_posicao(self, delta_t):
-        self._posicao = (self._velocidade[0] * delta_t + self._posicao[0],
-                         self._velocidade[1] * delta_t + self._posicao[1])
-        return self._posicao
+    def out_screen(self):
+        width, height = pygame.display.get_surface().get_size()
+        if (self._position[0] + self._size[0] < 0 or self._position[0] - self._size[0] > width
+            or self._position[1] + self._size[1] < 0 or self._position[1] - self._size[1] > height):
+            return True
+        return False
+
 
     @abstractmethod
     def draw(self):
         """
-        Atenção: apague a tela antes de atualizar os componentes.
+        Warning: Clear screen before updating the components.
         """
         pass
