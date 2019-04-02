@@ -17,6 +17,10 @@ class Shot(Drawable):
         self._shotImage = pygame.image.load(os.path.abspath("static/Images/Player/player-gun.png"))
         self._shotImage = pygame.transform.scale(self._shotImage, self._size)
         self._shotImage = self._shotImage.convert()
+        pygame.mixer.init()
+        shot_sound = pygame.mixer.Sound('./static/sounds/shoot1.wav')
+        shot_sound.set_volume(0.01)
+        shot_sound.play()
 
     def draw(self):
         self._screen.blit(self._shotImage, self._position)

@@ -85,7 +85,7 @@ class GameEngine:
                 self.__on_quit()
                 return
 
-        # Keep shoting all tyhe time
+        # Keep shoting all the time
         self.shots.append(self.nave.shooting())
 
         keys = pygame.key.get_pressed()
