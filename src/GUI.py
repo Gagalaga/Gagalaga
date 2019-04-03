@@ -20,17 +20,9 @@ class GUI:
         """
         Configures the sound
         """
-<<<<<<< Updated upstream
         # pygame.mixer.init()
         # player = pygame.mixer.Sound('./../static/sounds/somesong.wav')
         # player.play()
-=======
-        pygame.mixer.init()
-        player = pygame.mixer.Sound('./static/sounds/original_sound_effects/theme_song.wav')
-        player.play(-1)
-
-
->>>>>>> Stashed changes
 
     def __configure_screen(self, size):
         """

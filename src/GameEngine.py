@@ -1,7 +1,8 @@
 import pygame
 
 from src.Background import Background
-from src.NaveUser import NaveUser
+from src.Naves.NaveUser import NaveUser
+from src.Naves.NaveEnemy import NaveEnemy
 
 from src.Config import color_configs as colors
 
@@ -25,11 +26,21 @@ class GameEngine:
         # Particular elements of the game
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
-        self.nave = NaveUser(self.__screen, (30, 30))
+        self.nave = NaveUser(self.__screen, (30, 300))
 
-      
         self.bots = []
+
         self.shots = []
+
+        self.__initializing_bots(5)
+
+    @property
+    def _drawables(self):
+        return self.background + [self.nave] + self.bots + self.shots
+
+    @property
+    def _collideables(self):
+        return [self.nave] + self.bots + self.shots
 
     def game_loop(self):
         """
@@ -42,11 +53,10 @@ class GameEngine:
 
     def __frame(self):
         """
-
         Executed at each frame
         fps = frames per second.
         1º) Waits the next frame
-        2°) Clear screen
+        2°) Clears screen
         3°) Calculates and plots the new parameters
         4°) Ends the present frame
         """
@@ -55,24 +65,25 @@ class GameEngine:
         # Dispite the fact it may looks like trash, it keeps the image atualizing
         self.__screen.fill(colors['black'])
 
-        drawables = self.background + [self.nave] + self.bots + self.shots
-
-        for drawable in drawables:
+        for drawable in self._drawables:
             drawable.updates_position(delta_t)
 
         self.__event_handler()
         if self.__ended:
             return
 
-        for drawable in drawables:
+        for drawable in self._drawables:
             drawable.draw()
 
         pygame.display.flip()
 
-        # value = pygame.sprite.collide_mask(self.__nave1, self.__nave2)
-        # print(value)
+        print(self.__collisions())
 
         self.__event_handler()
+
+    def __initializing_bots(self, number_bots):
+        for i in range(1,number_bots):
+            self.bots.append(NaveEnemy(self.__screen, (30-100*i, 30), (50, 0)))
 
     def __event_handler(self):
         """
@@ -99,7 +110,11 @@ class GameEngine:
             self.nave.vertical_moving(-1)
 
     def __collisions(self):
-        pass
+        shots = pygame.sprite.Group(*self.shots)
+        collision_flag = False
+        if pygame.sprite.spritecollide(self.bots[0], shots, False, pygame.sprite.collide_mask):
+            collision_flag = True         
+        return collision_flag
 
     def __on_init(self):
         """
