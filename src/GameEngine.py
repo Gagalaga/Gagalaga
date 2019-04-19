@@ -12,6 +12,8 @@ class GameEngine:
     """
 
     def __init__(self, screen):
+        self.period = 4
+        self.num_frames = 0
         self.__screen = screen
 
         # Appropriately initializing the game
@@ -25,12 +27,12 @@ class GameEngine:
         # Particular elements of the game
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
-        self.nave = NaveUser(self.__screen, (30, 30))
+        self.nave = NaveUser(self.__screen, (330, 600))
 
       
         self.bots = []
         self.shots = []
-
+        
     def game_loop(self):
         """
         A wrapper of the GameEngine's operation
@@ -50,6 +52,9 @@ class GameEngine:
         3°) Calculates and plots the new parameters
         4°) Ends the present frame
         """
+        self.num_frames+=1
+        if self.num_frames==100:
+            self.num_frames=0
         delta_t = self.__clock.tick(self.__fps) / 1000
 
         # Dispite the fact it may looks like trash, it keeps the image atualizing
@@ -86,7 +91,8 @@ class GameEngine:
                 return
 
         # Keep shoting all the time
-        self.shots.append(self.nave.shooting())
+        if self.num_frames%self.period==0:
+            self.shots.append(self.nave.shooting())
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
