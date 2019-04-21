@@ -3,7 +3,7 @@ import pygame
 from abc import ABCMeta, abstractmethod
 
 
-class Drawable:
+class Drawable(pygame.sprite.Sprite):
     """
     An abstract class that represent all the mobile objects of the game.
     It's subclassed by each drawable element.
@@ -12,6 +12,7 @@ class Drawable:
     __metaclass__ = ABCMeta
 
     def __init__(self, current_position, current_velocity, screen, size):
+        pygame.sprite.Sprite.__init__(self)
         self._position = current_position
         self._velocity = current_velocity
         self._screen = screen
@@ -35,4 +36,7 @@ class Drawable:
         """
         Warning: Clear screen before updating the components.
         """
+        pass
+
+    def erase_signaller(self):
         pass

@@ -2,6 +2,7 @@ import pygame
 
 from src.Background import Background
 from src.NaveUser import NaveUser
+from src.GlobalState import GlobalState
 
 from src.Config import color_configs as colors
 
@@ -27,9 +28,7 @@ class GameEngine:
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
         self.nave = NaveUser(self.__screen, (30, 30))
 
-      
-        self.bots = []
-        self.shots = []
+        self.state = GlobalState(self.nave)
 
     def game_loop(self):
         """
@@ -55,7 +54,7 @@ class GameEngine:
         # Dispite the fact it may looks like trash, it keeps the image atualizing
         self.__screen.fill(colors['black'])
 
-        drawables = self.background + [self.nave] + self.bots + self.shots
+        drawables = self.background + self.state.list_all()
 
         for drawable in drawables:
             drawable.updates_position(delta_t)
@@ -68,9 +67,6 @@ class GameEngine:
             drawable.draw()
 
         pygame.display.flip()
-
-        # value = pygame.sprite.collide_mask(self.__nave1, self.__nave2)
-        # print(value)
 
         self.__event_handler()
 
@@ -86,7 +82,7 @@ class GameEngine:
                 return
 
         # Keep shoting all tyhe time
-        self.shots.append(self.nave.shooting())
+        self.state.add_shot(self.nave.shooting())
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
@@ -100,6 +96,7 @@ class GameEngine:
 
     def __collisions(self):
         pass
+
 
     def __on_init(self):
         """
