@@ -8,6 +8,7 @@ pylint = "<2.0.0"
 
 [packages]
 pygame = "*"
+pypubsub = "*"
 
 [requires]
 python_version = "3.6"
