@@ -17,14 +17,13 @@ class Nave(Drawable, Collideable):
         An example of a position input: position = (30,30).
         """
         Drawable.__init__(self, position, (0, 0), screen, (100, 100))
-        pygame.sprite.Sprite.__init__(self)
 
         self._image = pygame.image.load(image_dir)
         self._image = pygame.transform.scale(self._image, self._size)
+        self._image = self._image.convert_alpha()
         self._screen.blit(self._image, self._position)
-        pygame.display.update()
 
-        Collideable.__init__(self, self._image)
+        Collideable.__init__(self)
 
     def horizontal_moving(self, movements):
         displacement = movements * (10)
@@ -39,5 +38,9 @@ class Nave(Drawable, Collideable):
         return shoot
 
     def draw(self):
-        self.update_mask(self._image)
         self._screen.blit(self._image, self._position)
+        self.update_mask()
+
+    @property
+    def image(self):
+        return self._image

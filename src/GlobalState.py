@@ -1,5 +1,5 @@
 import pygame
-import pubsub
+from pubsub import pub 
 
 
 class GlobalState():
@@ -9,11 +9,14 @@ class GlobalState():
         self.bots = pygame.sprite.Group()
         self.shots = pygame.sprite.Group()
 
+        self.__subscribe_bots()
+        self.__subscribe_shots()
+
     def __subscribe_bots(self):
-        pubsub.subscribe(lambda bot: self.remove_bot(bot), 'remove_bot')
+        pub.subscribe(lambda bot: self.remove_bot(bot), 'remove_bot')
 
     def __subscribe_shots(self):
-        pubsub.subscribe(lambda shot: self.remove_shot(bot), 'remove_shot')
+        pub.subscribe(lambda shot: self.remove_shot(shot), 'remove_shot')
 
     def list_all(self):
         return self.bots.sprites() + self.shots.sprites()

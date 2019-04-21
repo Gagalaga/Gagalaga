@@ -17,10 +17,14 @@ class Shot(Drawable, Collideable):
         Drawable.__init__(self, current_position, current_velocity, screen, (5,10))
         self._shotImage = pygame.image.load(os.path.abspath("static/Images/Player/player-gun.png"))
         self._shotImage = pygame.transform.scale(self._shotImage, self._size)
-        self._shotImage = self._shotImage.convert()
+        self._shotImage = self._shotImage.convert_alpha()
 
-        Collideable.__init__(self, self._shotImage)
+        Collideable.__init__(self)
 
     def draw(self):
-        self.update_mask(self._shotImage)
         self._screen.blit(self._shotImage, self._position)
+        self.update_mask()
+
+    @property
+    def image(self):
+        return self._shotImage

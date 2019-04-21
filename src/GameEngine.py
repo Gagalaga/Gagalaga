@@ -27,7 +27,7 @@ class GameEngine:
         # Particular elements of the game
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
-        self.nave = NaveUser(self.__screen, (30, 300))
+        self.nave = NaveUser(self.__screen, (3000000, 3000000))
 
         self.state = GlobalState(self.nave)
 
@@ -35,11 +35,7 @@ class GameEngine:
 
     @property
     def _drawables(self):
-        return self.background + self._collideables
-
-    @property
-    def _collideables(self):
-        return [self.nave] + self.state.list_all()
+        return self.background + [self.nave] + self.state.list_all()
 
     def game_loop(self):
         """
@@ -76,7 +72,7 @@ class GameEngine:
 
         pygame.display.flip()
 
-        self.__event_handler()
+        self.__collisions()
 
     def __initializing_bots(self, number_bots):
         for i in range(1,number_bots):
@@ -105,6 +101,14 @@ class GameEngine:
             self.nave.vertical_moving(1)
         if keys[pygame.K_w]:
             self.nave.vertical_moving(-1)
+
+    def __collisions(self):
+        #for bot in self.state.bots.sprites():
+        #    bot.collideswith(self.state.shots)
+        print(len(self.state.bots), len(self.state.shots))
+        #r = pygame.sprite.groupcollide(self.state.bots, self.state.shots, True, True, pygame.sprite.collide_mask)
+        r = pygame.sprite.groupcollide(self.state.bots, self.state.shots, True, True)
+        print(r)
 
     def __on_init(self):
         """

@@ -37,6 +37,3 @@ class Drawable(pygame.sprite.Sprite):
         Warning: Clear screen before updating the components.
         """
         pass
-
-    def erase_signaller(self):
-        pass
