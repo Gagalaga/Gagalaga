@@ -1,8 +1,9 @@
 import pygame
 
 from src.Background import Background
-from src.NaveUser import NaveUser
 from src.GlobalState import GlobalState
+from src.Naves.NaveUser import NaveUser
+from src.Naves.NaveEnemy import NaveEnemy
 
 from src.Config import color_configs as colors
 
@@ -26,9 +27,19 @@ class GameEngine:
         # Particular elements of the game
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
-        self.nave = NaveUser(self.__screen, (30, 30))
+        self.nave = NaveUser(self.__screen, (30, 300))
 
         self.state = GlobalState(self.nave)
+
+        self.__initializing_bots(5)
+
+    @property
+    def _drawables(self):
+        return self.background + self._collideables
+
+    @property
+    def _collideables(self):
+        return [self.nave] + self.state.list_all()
 
     def game_loop(self):
         """
@@ -41,11 +52,10 @@ class GameEngine:
 
     def __frame(self):
         """
-
         Executed at each frame
         fps = frames per second.
         1º) Waits the next frame
-        2°) Clear screen
+        2°) Clears screen
         3°) Calculates and plots the new parameters
         4°) Ends the present frame
         """
@@ -54,21 +64,23 @@ class GameEngine:
         # Dispite the fact it may looks like trash, it keeps the image atualizing
         self.__screen.fill(colors['black'])
 
-        drawables = self.background + self.state.list_all()
-
-        for drawable in drawables:
+        for drawable in self._drawables:
             drawable.updates_position(delta_t)
 
         self.__event_handler()
         if self.__ended:
             return
 
-        for drawable in drawables:
+        for drawable in self._drawables:
             drawable.draw()
 
         pygame.display.flip()
 
         self.__event_handler()
+
+    def __initializing_bots(self, number_bots):
+        for i in range(1,number_bots):
+            self.state.bots.add(NaveEnemy(self.__screen, (30-100*i, 30), (50, 0)))
 
     def __event_handler(self):
         """
@@ -93,10 +105,6 @@ class GameEngine:
             self.nave.vertical_moving(1)
         if keys[pygame.K_w]:
             self.nave.vertical_moving(-1)
-
-    def __collisions(self):
-        pass
-
 
     def __on_init(self):
         """

@@ -21,6 +21,6 @@ class Shot(Drawable, Collideable):
 
         Collideable.__init__(self, self._shotImage)
 
-
     def draw(self):
+        self.update_mask(self._shotImage)
         self._screen.blit(self._shotImage, self._position)
