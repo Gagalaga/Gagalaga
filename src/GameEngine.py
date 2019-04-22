@@ -6,7 +6,7 @@ from src.Naves.NaveUser import NaveUser
 from src.Naves.NaveEnemy import NaveEnemy
 
 from src.Config import color_configs as colors
-
+from src.Config import screen_configs
 
 class GameEngine:
     """
@@ -27,7 +27,7 @@ class GameEngine:
         # Particular elements of the game
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
-        self.nave = NaveUser(self.__screen, (300, 300))
+        self.nave = NaveUser(self.__screen, ((1/2)*screen_configs['width'], screen_configs['height']))
 
         self.state = GlobalState(self.nave)
 

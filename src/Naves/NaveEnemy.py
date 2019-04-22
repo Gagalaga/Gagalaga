@@ -9,11 +9,13 @@ class NaveEnemy(Nave):
     Inherits from pygame.Sprite.
     """
 
-    def __init__(self, screen, position, velocidade_inicial=0):
+    def __init__(self, screen, position, velocidade_inicial=0, hardness = 2):
         image_dir = "static/Images/Enemies/Cherry/skull-cherry.png"
         Nave.__init__(self, screen, position, image_dir)
 
         self.velocity = velocidade_inicial
+        self._life = hardness*self._life
+
 
     @property
     def velocity(self):
