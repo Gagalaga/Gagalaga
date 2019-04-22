@@ -1,5 +1,5 @@
 import pygame
-
+import time
 from src.Background import Background
 from src.GlobalState import GlobalState
 from src.Naves.NaveUser import NaveUser
@@ -14,7 +14,10 @@ class GameEngine:
     """
 
     def __init__(self, screen):
+        self.period = 4
+        self.num_frames = 0
         self.__screen = screen
+        self._gameover = False
 
         # Appropriately initializing the game
         self.__on_init()
@@ -58,6 +61,9 @@ class GameEngine:
         6°) Calculates collisions
         7°) Calculates off the screen objects
         """
+        self.num_frames+=1
+        if self.num_frames==100:
+            self.num_frames=0
         delta_t = self.__clock.tick(self.__fps) / 1000
 
         # Dispite the fact it may looks like trash, it keeps the image atualizing
@@ -67,6 +73,10 @@ class GameEngine:
             drawable.updates_position(delta_t)
 
         self.__event_handler()
+        
+        while self._gameover == True:
+            self.__on_game_over
+
         if self.__ended:
             return
 
@@ -77,6 +87,7 @@ class GameEngine:
 
         self.__collisions()
         self.__out_screen()
+        
 
     def __initializing_bots(self, number_bots):
         """
@@ -84,6 +95,7 @@ class GameEngine:
         """
         for i in range(1,number_bots):
             self.state.add_bot(NaveEnemy(self.__screen, (30-100*i, 30), (50, 0)))
+        
 
     def __event_handler(self):
         """
@@ -97,7 +109,8 @@ class GameEngine:
                 return
 
         # Keep shoting all tyhe time
-        self.state.add_shot(self.nave.shooting())
+        if self.num_frames%self.period==0:
+            self.state.add_shot(self.nave.shooting())
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
@@ -122,9 +135,33 @@ class GameEngine:
         print("Initializing pygame in 3 ... 2 ... 1 ...")
         pygame.init()
 
+    def __on_game_over(self):
+        self.__screen.display.fill(white)
+        self.message_to_screen("Game over, press P to play again or Q to quit", colors['red'])
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                print("pygame.QUIT pressed by user")
+                self.__ended = True
+                self.__on_quit()
+                return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    self.__ended = True
+                    self.__on_quit()
+                if event.key == pygame.K_p:
+                    self._gameover = False
+                    self.__frame()
+
+
     def __on_quit(self):
         """
         Private method for treating specifically of pygame's interrupting.
         """
         print("Quitting pygame in 3 ... 2 ... 1 ...")
         pygame.quit()
+
+    def message_to_screen(self,msg,color):
+        screen_text = font.render(msg, True, color)
+        self.__screen.blit(screen_text,[screen_configs['width']/2,screen_configs['height']/2]) 
+

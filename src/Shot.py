@@ -19,6 +19,11 @@ class Shot(Drawable, Collideable):
         self._shotImage = pygame.transform.scale(self._shotImage, self._size)
         self._shotImage = self._shotImage.convert_alpha()
 
+        pygame.mixer.init()
+        shot_sound = pygame.mixer.Sound('./static/sounds/shoot1.wav')
+        shot_sound.set_volume(0.01)
+        shot_sound.play()
+        
         Collideable.__init__(self)
 
     def draw(self):
