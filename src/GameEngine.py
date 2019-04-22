@@ -75,6 +75,7 @@ class GameEngine:
 
         pygame.display.flip()
 
+        self.__bots_shooting()
         self.__collisions()
         self.__out_screen()
 
@@ -108,6 +109,11 @@ class GameEngine:
             self.nave.vertical_moving(1)
         if keys[pygame.K_w]:
             self.nave.vertical_moving(-1)
+
+    def __bots_shooting(self):
+        for bot in self.state.bots.sprites():
+            botshot = bot.shoot_user(self.state.nave.position)
+            self.state.add_botsshots(botshot)
 
     def __collisions(self):
         self.state.handle_collisions()

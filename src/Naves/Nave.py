@@ -33,8 +33,8 @@ class Nave(Drawable, Collideable):
         displacement = movements * (10)
         self._position = (self._position[0], self._position[1] + displacement)
     
-    def shooting(self):
-        shoot = Shot((self._position[0] + 50, self._position[1]), (0, -100), self._screen)
+    def shooting(self, velocity=(0, -100)):
+        shoot = Shot((self._position[0] + 50, self._position[1]), velocity, self._screen)
         return shoot
 
     def draw(self):

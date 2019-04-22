@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from src.Naves.Nave import Nave
@@ -15,8 +17,13 @@ class NaveEnemy(Nave):
 
         self.velocity = velocidade_inicial
 
-    def shoot_user(self):
-
+    def shoot_user(self, position_to_shoot):
+        relative_position = (position_to_shoot[0] - self.position[0],
+                             position_to_shoot[1] - self.position[1])
+        norm = math.sqrt(relative_position[0]**2 + relative_position[1]**2)
+        vector = (relative_position[0]/norm*100,
+                  relative_position[1]/norm*100)
+        return self.shooting(vector)
 
     @property
     def velocity(self):
