@@ -1,30 +1,29 @@
 import pygame
 
 from src.Drawable import Drawable
+from src.Collideable import Collideable
 from src.Shot import Shot
 
 
-class NaveUser(Drawable):
+class Nave(Drawable, Collideable):
     """
     A class that abstracts the nave from the user.
     Inherits from pygame.Sprite.
     """
 
-    def __init__(self, screen, position):
+    def __init__(self, screen, position, image_dir):
         """
         Initializes the user's nave at a given position.
         An example of a position input: position = (30,30).
         """
         Drawable.__init__(self, position, (0, 0), screen, (100, 100))
 
-        # width, height = pygame.display.get_surface().get_size()
-
-        self._image = pygame.image.load("static/Images/Player/player.png")
+        self._image = pygame.image.load(image_dir)
         self._image = pygame.transform.scale(self._image, self._size)
+        self._image = self._image.convert_alpha()
         self._screen.blit(self._image, self._position)
-        pygame.display.update()
 
-        # self.mask = pygame.mask.from_surface(self.image)
+        Collideable.__init__(self)
 
     def horizontal_moving(self, movements):
         displacement = movements * (10)
@@ -40,3 +39,11 @@ class NaveUser(Drawable):
 
     def draw(self):
         self._screen.blit(self._image, self._position)
+
+    @property
+    def image(self):
+        return self._image
+
+    @property
+    def position(self):
+        return self._position

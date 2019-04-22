@@ -3,7 +3,7 @@ import pygame
 from abc import ABCMeta, abstractmethod
 
 
-class Drawable:
+class Drawable():
     """
     An abstract class that represent all the mobile objects of the game.
     It's subclassed by each drawable element.
@@ -28,7 +28,6 @@ class Drawable:
             or self._position[1] + self._size[1] < 0 or self._position[1] - self._size[1] > height):
             return True
         return False
-
 
     @abstractmethod
     def draw(self):
