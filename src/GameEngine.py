@@ -24,7 +24,7 @@ class GameEngine:
 
         # Setting basic features for the game functioning
         self.__clock = pygame.time.Clock()
-        self.__fps = 10
+        self.__fps = 50
         self.__ended = False
 
         # Particular elements of the game
@@ -84,6 +84,7 @@ class GameEngine:
 
         pygame.display.flip()
 
+        self.__bots_shooting()
         self.__collisions()
         self.__out_screen()
         
@@ -121,6 +122,11 @@ class GameEngine:
             if self.num_frames > 2:
                 self.state.add_shot(self.nave.shooting())
                 self.num_frames = 0
+
+    def __bots_shooting(self):
+        for bot in self.state.bots.sprites():
+            botshot = bot.shoot_user(self.state.nave.position)
+            self.state.add_botsshots(botshot)
     
     def __collisions(self):
         self.state.handle_collisions()
