@@ -31,11 +31,15 @@ class GlobalState():
         self.shots.remove(shot)
 
     def handle_collisions(self):
+        self.remove_dead_ones()
         self.bots.update()
         self.shots.update()
         self.nave.update()
         self.botsshots.update()
-        pygame.sprite.groupcollide(self.bots, self.shots, True, True, pygame.sprite.collide_mask)
+
+        bots = pygame.sprite.groupcollide(self.bots, self.shots, False, True, pygame.sprite.collide_mask)
+        for bot in bots.keys():
+            bot._life = bot._life - 10
 
         botshot = pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask)
         if botshot != None:
@@ -54,4 +58,7 @@ class GlobalState():
         #    if bot.out_screen():
         #        self.remove_bot(bot)
 
-        #print(len(self.shots.sprites()))
+    def remove_dead_ones(self):
+        for bot in self.bots.sprites():
+            if bot.should_be_dead():
+                self.remove_bot(bot)

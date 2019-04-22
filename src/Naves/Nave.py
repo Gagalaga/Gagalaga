@@ -16,12 +16,18 @@ class Nave(Drawable, Collideable):
         Initializes the user's nave at a given position.
         An example of a position input: position = (30,30).
         """
+        # This line adjusts the drawing to place the element in the screen, instead of out of that
+        position = (position[0] - 50, position[1] - 100)
+        
         Drawable.__init__(self, position, (0, 0), screen, (100, 100))
 
         self._image = pygame.image.load(image_dir)
         self._image = pygame.transform.scale(self._image, self._size)
         self._image = self._image.convert_alpha()
         self._screen.blit(self._image, self._position)
+        
+        # This variable implements the life in a very simple way
+        self._life = 10
 
         Collideable.__init__(self)
 
@@ -47,3 +53,6 @@ class Nave(Drawable, Collideable):
     @property
     def position(self):
         return self._position
+
+    def should_be_dead(self):
+        return self._life <= 0
