@@ -24,10 +24,11 @@ class Drawable():
 
     def out_screen(self):
         width, height = pygame.display.get_surface().get_size()
-        if (self._position[0] - self._size[0] < 0 or self._position[0] + self._size[0] > width
-            or self._position[1] - self._size[1] < 0 or self._position[1] + self._size[1] > height):
+        if (self._position[0] + self._size[0] < 0 or self._position[0] - self._size[0] > width
+            or self._position[1] + self._size[1] < 0 or self._position[1] - self._size[1] > height):
             return True
         return False
+
 
     @abstractmethod
     def draw(self):
