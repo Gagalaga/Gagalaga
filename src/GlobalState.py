@@ -36,3 +36,5 @@ class GlobalState():
         #for bot in self.bots:
         #    if bot.out_screen():
         #        self.remove_bot(bot)
+
+        print(len(self.shots.sprites()))

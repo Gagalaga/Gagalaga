@@ -21,7 +21,7 @@ class GameEngine:
 
         # Setting basic features for the game functioning
         self.__clock = pygame.time.Clock()
-        self.__fps = 10
+        self.__fps = 50
         self.__ended = False
 
         # Particular elements of the game

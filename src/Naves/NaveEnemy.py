@@ -15,6 +15,9 @@ class NaveEnemy(Nave):
 
         self.velocity = velocidade_inicial
 
+    def shoot_user(self):
+
+
     @property
     def velocity(self):
         return self._velocity
