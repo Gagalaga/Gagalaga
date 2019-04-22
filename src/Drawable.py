@@ -3,7 +3,7 @@ import pygame
 from abc import ABCMeta, abstractmethod
 
 
-class Drawable(pygame.sprite.Sprite):
+class Drawable():
     """
     An abstract class that represent all the mobile objects of the game.
     It's subclassed by each drawable element.
@@ -12,7 +12,6 @@ class Drawable(pygame.sprite.Sprite):
     __metaclass__ = ABCMeta
 
     def __init__(self, current_position, current_velocity, screen, size):
-        pygame.sprite.Sprite.__init__(self)
         self._position = current_position
         self._velocity = current_velocity
         self._screen = screen
@@ -29,7 +28,6 @@ class Drawable(pygame.sprite.Sprite):
             or self._position[1] + self._size[1] < 0 or self._position[1] - self._size[1] > height):
             return True
         return False
-
 
     @abstractmethod
     def draw(self):

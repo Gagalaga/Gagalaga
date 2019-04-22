@@ -23,8 +23,11 @@ class Shot(Drawable, Collideable):
 
     def draw(self):
         self._screen.blit(self._shotImage, self._position)
-        self.update_mask()
 
     @property
     def image(self):
         return self._shotImage
+
+    @property
+    def position(self):
+        return self._position

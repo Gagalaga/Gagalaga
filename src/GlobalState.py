@@ -1,5 +1,4 @@
 import pygame
-from pubsub import pub 
 
 
 class GlobalState():
@@ -8,15 +7,6 @@ class GlobalState():
         self.nave = nave
         self.bots = pygame.sprite.Group()
         self.shots = pygame.sprite.Group()
-
-        self.__subscribe_bots()
-        self.__subscribe_shots()
-
-    def __subscribe_bots(self):
-        pub.subscribe(lambda bot: self.remove_bot(bot), 'remove_bot')
-
-    def __subscribe_shots(self):
-        pub.subscribe(lambda shot: self.remove_shot(shot), 'remove_shot')
 
     def list_all(self):
         return self.bots.sprites() + self.shots.sprites()
@@ -33,3 +23,16 @@ class GlobalState():
     def remove_shot(self, shot):
         self.shots.remove(shot)
 
+    def handle_collisions(self):
+        self.bots.update()
+        self.shots.update()
+        pygame.sprite.groupcollide(self.bots, self.shots, True, True, pygame.sprite.collide_mask)
+
+    def handle_out_screen(self):
+        for shot in self.shots:
+            if shot.out_screen():
+                self.remove_shot(shot)
+
+        #for bot in self.bots:
+        #    if bot.out_screen():
+        #        self.remove_bot(bot)

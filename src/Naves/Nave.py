@@ -39,8 +39,11 @@ class Nave(Drawable, Collideable):
 
     def draw(self):
         self._screen.blit(self._image, self._position)
-        self.update_mask()
 
     @property
     def image(self):
         return self._image
+
+    @property
+    def position(self):
+        return self._position

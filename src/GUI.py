@@ -4,6 +4,10 @@ from src.Config import screen_configs as screen
 
 
 class GUI:
+    """
+    A Graphic User Interface.
+    """
+
     def __init__(self, size=[screen['width'], screen['height']]):
         """
         size: default is the screen_configs in Configs.py.
@@ -12,19 +16,13 @@ class GUI:
         self.__configure_screen(size)
         self.__configure_sound()
 
-    """
-    A Graphic User Interface.
-    """
-
     def __configure_sound(self):
         """
         Configures the sound
         """
         pygame.mixer.init()
         player = pygame.mixer.Sound('./static/sounds/original_sound_effects/theme_song.wav')
-        player.play(-1)
-
-
+        player.play(0)
 
     def __configure_screen(self, size):
         """

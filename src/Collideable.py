@@ -1,10 +1,9 @@
 import pygame
-from pubsub import pub
 
 from abc import ABCMeta, abstractmethod
 
 
-class Collideable():
+class Collideable(pygame.sprite.Sprite):
     """
     An abstract class that represent all the objects that may collide.
     The collision engine uses masks.
@@ -13,16 +12,20 @@ class Collideable():
     __metaclass__ = ABCMeta
 
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.rect = self.image.get_rect()
-        #self.mask = self.image.get_masks()
-        self.mask = pygame.mask.from_surface(self.image)
 
-    def update_mask(self):
+    def update(self):
         self.rect = self.image.get_rect()
-        self.mask = pygame.mask.from_surface(self.image)
+        self.rect.move_ip(self.position)
 
     @property
     @abstractmethod
     def image(self):
+        pass
+
+    @property
+    @abstractmethod
+    def position(self):
         pass
         
