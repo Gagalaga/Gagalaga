@@ -14,16 +14,16 @@ class Shot(Drawable, Collideable):
     """
 
     def __init__(self, current_position, current_velocity, screen):
-        Drawable.__init__(self, current_position, current_velocity, screen, (5,10))
+        Drawable.__init__(self, current_position, ((3/2)*current_velocity[0], (3/2)*current_velocity[1]) , screen, (5,10))
         self._shotImage = pygame.image.load(os.path.abspath("static/Images/Player/player-gun.png"))
         self._shotImage = pygame.transform.scale(self._shotImage, self._size)
         self._shotImage = self._shotImage.convert_alpha()
 
         pygame.mixer.init()
         shot_sound = pygame.mixer.Sound('./static/sounds/shoot1.wav')
-        shot_sound.set_volume(0.01)
+        shot_sound.set_volume(1)
         shot_sound.play()
-        
+
         Collideable.__init__(self)
 
     def draw(self):

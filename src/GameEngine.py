@@ -15,7 +15,7 @@ class GameEngine:
 
     def __init__(self, screen):
         self.period = 4
-        self.num_frames = 0
+        self.num_frames = 3
         self.__screen = screen
         self._gameover = False
 
@@ -62,8 +62,7 @@ class GameEngine:
         7°) Calculates off the screen objects
         """
         self.num_frames+=1
-        if self.num_frames==100:
-            self.num_frames=0
+
         delta_t = self.__clock.tick(self.__fps) / 1000
 
         # Dispite the fact it may looks like trash, it keeps the image atualizing
@@ -108,10 +107,6 @@ class GameEngine:
                 self.__on_quit()
                 return
 
-        # Keep shoting all tyhe time
-        if self.num_frames%self.period==0:
-            self.state.add_shot(self.nave.shooting())
-
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             self.nave.horizontal_moving(1)
@@ -121,7 +116,12 @@ class GameEngine:
             self.nave.vertical_moving(1)
         if keys[pygame.K_w]:
             self.nave.vertical_moving(-1)
-
+        if keys[pygame.K_SPACE]:
+            # Anti-apelation control
+            if self.num_frames > 2:
+                self.state.add_shot(self.nave.shooting())
+                self.num_frames = 0
+    
     def __collisions(self):
         self.state.handle_collisions()
 
