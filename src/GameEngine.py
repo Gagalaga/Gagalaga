@@ -16,7 +16,6 @@ class GameEngine:
     """
 
     def __init__(self, screen):
-        self.period = 4
         self.num_frames = 3
         self.__screen = screen
         self._gameover = False
@@ -26,7 +25,7 @@ class GameEngine:
 
         # Setting basic features for the game functioning
         self.__clock = pygame.time.Clock()
-        self.__fps = 50
+        self.__fps = 20
         self.__ended = False
 
         # Particular elements of the game
@@ -121,7 +120,7 @@ class GameEngine:
             self.nave.vertical_moving(-1)
         if keys[pygame.K_SPACE]:
             # Anti-apelation control
-            if self.num_frames > 2:
+            if self.num_frames > 3:
                 self.state.add_shot(self.nave.shooting())
                 self.num_frames = 0
 
