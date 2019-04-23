@@ -13,8 +13,8 @@ class Shot(Drawable, Collideable):
     Being it from an user or an enemy.
     """
 
-    def __init__(self, current_position, current_velocity, screen, archive):
-        Drawable.__init__(self, current_position, (current_velocity[0], current_velocity[1]) , screen, (5,10))
+    def __init__(self, current_position, current_velocity, screen, archive, size):
+        Drawable.__init__(self, current_position, (current_velocity[0], current_velocity[1]) , screen, size)
         self._shotImage = pygame.image.load(os.path.abspath(archive))
         self._shotImage = pygame.transform.scale(self._shotImage, self._size)
         self._shotImage = self._shotImage.convert_alpha()
