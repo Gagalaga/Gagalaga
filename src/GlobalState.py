@@ -9,6 +9,8 @@ class GlobalState():
         self.shots = pygame.sprite.Group()
         self.botsshots = pygame.sprite.Group()
 
+        self.num_random_bots = 0
+
     def list_all(self):
         return self.bots.sprites() + self.shots.sprites() + self.botsshots.sprites()
 
