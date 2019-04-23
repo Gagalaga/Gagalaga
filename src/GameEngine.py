@@ -103,7 +103,7 @@ class GameEngine:
         Instatiates the bots e saves them into the GlobalState
         """
         for i in range(1,number_bots):
-            self.state.add_bot(NaveEnemy(self.__screen, (30-100*i, 30), (50, 0)))
+            self.state.add_bot(NaveEnemy(self.__screen, (400-100*i, 30), (50, 0)))
         
     def __event_handler(self):
         """
