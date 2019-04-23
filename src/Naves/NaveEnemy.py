@@ -34,3 +34,15 @@ class NaveEnemy(Nave):
     @velocity.setter
     def velocity(self, new_velocity):
         self._velocity = new_velocity
+
+    def updates_position(self, delta_t):
+        width, height = pygame.display.get_surface().get_size()
+        self._position = (self._velocity[0] * delta_t + self._position[0],
+                          self._velocity[1] * delta_t + self._position[1])
+
+       
+        if (self._position[0] < -self._size[0]/2 or self._position[0] + self._size[0]/2 > width):
+            self.velocity = (-self.velocity[0], self.velocity[1])
+        
+        if(self._position[1] < -self._size[1]/2 or self._position[1] + self._size[1]/2 > height): 
+            self.velocity = (self.velocity[0], -self.velocity[1])
