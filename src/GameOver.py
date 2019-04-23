@@ -13,7 +13,9 @@ class GameOver:
         while inGameOver:
             clock.tick(10)
             screen.fill((0,0,0))
-            self.message_to_screen("Você pegou DP!",y_delta = -150)
+            self.message_to_screen("Você pegou DP!",y_delta = -150 )
+            self.message_to_screen("Seu score foi: " + str(score), -100, (255,255,255), size = 30)
+
             #screen.blit(bg, (0,-100))
             #screen.blit(D, (scr_width/2-20,70))
             self.blockList = [GameOver.Retangulo(screen,"Cancerizar!",x_delta= -100)
@@ -46,13 +48,13 @@ class GameOver:
             pygame.draw.rect(screen, (0,200,0), (selected.x, selected.y, selected.width, selected.height),7)
             pygame.display.update()
 
-    def message_to_screen(self, text, y_delta=0, color = (226,0,0)):
-        textSurf, textRect = self.text_objects(text,color)
+    def message_to_screen(self, text, y_delta=0, color = (226,0,0), size = 40):
+        textSurf, textRect = self.text_objects(text,color, size)
         textRect.center = self.screen.get_width()/2 , self.screen.get_height()/2+y_delta
         self.screen.blit (textSurf, textRect)
 
-    def text_objects(self, text , color):
-            font = pygame.font.SysFont('Arial Black', 40)
+    def text_objects(self, text , color,size=40):
+            font = pygame.font.SysFont('Arial Black', size)
             textSurface = font.render(text, True , color)
             return textSurface, textSurface.get_rect()
     
