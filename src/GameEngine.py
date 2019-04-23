@@ -97,6 +97,8 @@ class GameEngine:
         for drawable in self._drawables:
             drawable.draw()
 
+        self.__print_values()
+
         pygame.display.flip()
 
         self.__randomize(self.rate())
@@ -199,3 +201,29 @@ class GameEngine:
         print("Quitting pygame in 3 ... 2 ... 1 ...")
         pygame.quit()
 
+    def __print_values(self):
+
+        image_coin = pygame.image.load("static/Images/coins.png")
+        image_coin = pygame.transform.scale(image_coin, (30, 30))
+        self.__screen.blit(image_coin, (750-40, 10))
+
+        hearts = int(self.state.nave._life / 10)
+        for heart in range(hearts):
+            image_heart = pygame.image.load("static/Images/cardiogram.png")
+            image_heart = pygame.transform.scale(image_heart, (30, 30))
+
+            self.__screen.blit(image_heart, (30 + heart*30, 10))
+
+        valor = str(self.state.nave.score)
+        self.__message_to_screen(valor)
+
+
+    def __message_to_screen(self, text, color = (226,161,9)):
+        textSurf, textRect = self.text_objects(text,color)
+        textRect.center = self.__screen.get_width()-80, 30
+        self.__screen.blit (textSurf, textRect)
+
+    def text_objects(self, text , color):
+            font = pygame.font.SysFont('Arial Black', 40)
+            textSurface = font.render(text, True , color)
+            return textSurface, textSurface.get_rect()
