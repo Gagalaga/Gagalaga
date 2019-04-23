@@ -40,7 +40,7 @@ class Nave(Drawable, Collideable):
         self._position = (self._position[0], self._position[1] + displacement)
     
     def shooting(self, velocity=(0, -100)):
-        shoot = Shot((self._position[0] + self._size[0]/2, self._position[1]), velocity, self._screen)
+        shoot = Shot((self._position[0] + self._size[0]/2, self._position[1]), velocity, self._screen, "static/Images/Enemies/Cherry/cherry-gun.png")
         return shoot
 
     def draw(self):
