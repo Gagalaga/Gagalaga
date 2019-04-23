@@ -5,6 +5,6 @@ color_configs = {
 }
 
 screen_configs = {
-    "width": 450,
-    "height": 600
+    "width": 750,
+    "height": 800
 }

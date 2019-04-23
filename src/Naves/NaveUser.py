@@ -25,7 +25,7 @@ class NaveUser(Nave):
         self._velocity = new_velocity
 
     def shooting(self):
-        shoot = Shot((self._position[0] + 50, self._position[1]), (self._velocity[0], self._velocity[1] - 300), self._screen)
+        shoot = Shot((self._position[0] + self._size[0]/2, self._position[1]), (self._velocity[0], self._velocity[1] - 300), self._screen)
         return shoot
 
     def updates_position(self, delta_t):

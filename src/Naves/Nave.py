@@ -17,9 +17,9 @@ class Nave(Drawable, Collideable):
         An example of a position input: position = (30,30).
         """
         # This line adjusts the drawing to place the element in the screen, instead of out of that
-        position = (position[0] - 50, position[1] - 100)
+        position = (position[0] - 25, position[1] - 50)
         
-        Drawable.__init__(self, position, (0, 0), screen, (100, 100))
+        Drawable.__init__(self, position, (0, 0), screen, (50, 50))
 
         self._image = pygame.image.load(image_dir)
         self._image = pygame.transform.scale(self._image, self._size)
@@ -40,7 +40,7 @@ class Nave(Drawable, Collideable):
         self._position = (self._position[0], self._position[1] + displacement)
     
     def shooting(self, velocity=(0, -100)):
-        shoot = Shot((self._position[0] + 50, self._position[1]), velocity, self._screen)
+        shoot = Shot((self._position[0] + self._size[0]/2, self._position[1]), velocity, self._screen)
         return shoot
 
     def draw(self):
