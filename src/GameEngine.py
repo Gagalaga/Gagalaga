@@ -38,7 +38,7 @@ class GameEngine:
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
         self.nave = NaveUser(self.__screen, ((1/2)*screen_configs['width'], screen_configs['height']))
 
-        self.state = GlobalState(self.nave)
+        self.state = GlobalState(self.nave, screen)
 
         self.__initializing_bots(5)
 

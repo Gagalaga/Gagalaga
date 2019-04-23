@@ -1,0 +1,4 @@
+from src.Drawable import Drawable
+from src.Collideable import Collideable
+
+class bonus(Drawable, Collideable)

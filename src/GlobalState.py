@@ -1,18 +1,21 @@
 import pygame
+from src.bonus import Bonus
 
 
 class GlobalState():
 
-    def __init__(self, nave):
+    def __init__(self, nave, screen):
         self.nave = nave
         self.bots = pygame.sprite.Group()
         self.shots = pygame.sprite.Group()
         self.botsshots = pygame.sprite.Group()
+        self.bonus = pygame.sprite.Group()
+        self.screen = screen
 
         self.num_random_bots = 0
 
     def list_all(self):
-        return self.bots.sprites() + self.shots.sprites() + self.botsshots.sprites()
+        return self.bots.sprites() + self.shots.sprites() + self.botsshots.sprites() + self.bonus.sprites()
 
     def add_bot(self, bot):
         self.bots.add(bot)
@@ -38,6 +41,7 @@ class GlobalState():
         self.shots.update()
         self.nave.update()
         self.botsshots.update()
+        self.bonus.update()
 
         bots = pygame.sprite.groupcollide(self.bots, self.shots, False, True, pygame.sprite.collide_mask)
         for bot in bots.keys():
@@ -49,6 +53,11 @@ class GlobalState():
 
         if pygame.sprite.spritecollideany(self.nave, self.bots, pygame.sprite.collide_mask) != None:
             print("Perdeu hahahah!")
+
+        bonus_collided = pygame.sprite.spritecollideany(self.nave, self.bonus, pygame.sprite.collide_mask)
+        if bonus_collided != None:
+            self.nave._life += 10
+            self.bonus.remove(bonus_collided)
 
 
     @property
@@ -67,4 +76,9 @@ class GlobalState():
     def remove_dead_ones(self):
         for bot in self.bots.sprites():
             if bot.should_be_dead():
+                self.nave.score += 10
+                self.nave.killed_bots += 1
+                if self.nave.killed_bots > 5:
+                    self.bonus.add(Bonus(self.screen, bot.position, "static/Images/Degrees/L.png"))
+                    self.nave.killed_bots = 0
                 self.remove_bot(bot)
