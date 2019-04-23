@@ -1,6 +1,6 @@
 import time
 import random 
-
+import math
 import pygame
 
 from src.Menu import Menu
@@ -18,6 +18,8 @@ class GameEngine:
     """
 
     def __init__(self, screen):
+        self.time = 0
+        
         self.shot_limiter = 3
         self.random_limiter = 0
         self.botsshots_limiter = 0
@@ -73,6 +75,7 @@ class GameEngine:
         self.botsshots_limiter+=1
 
         delta_t = self.__clock.tick(self.__fps) / 1000
+        self.time += delta_t
 
         # Dispite the fact it may looks like trash, it keeps the image atualizing
         self.__screen.fill(colors['black'])
@@ -93,7 +96,7 @@ class GameEngine:
 
         pygame.display.flip()
 
-        self.__randomize()
+        self.__randomize(self.rate())
 
         self.__bots_shooting()
         self.__collisions()
@@ -133,16 +136,23 @@ class GameEngine:
                 self.state.add_shot(self.nave.shooting())
                 self.shot_limiter = 0
 
-    def __randomize(self):
-        if self.state.num_random_bots >= 5 or self.random_limiter < 6*self.__fps:
+    def rate(self):
+        return 5 - 4*math.exp(-0.006*self.time)
+
+    def __randomize(self, rate):
+        
+        lim_min_vel = int(50*rate)
+        lim_max_vel = int(150*rate)
+
+        if self.state.num_random_bots >= 5*rate or self.random_limiter < 6*self.__fps:
             return
 
         random_position = random.random() * screen_configs['width'], random.random() * screen_configs['height']
 
-        random_velocity_x_pos = random.randrange(50, 150, 1)
-        random_velocity_x_neg = random.randrange(-150, -50, 1)
-        random_velocity_y_pos = random.randrange(50, 150, 1)
-        random_velocity_y_neg = random.randrange(-150, -50, 1)
+        random_velocity_x_pos = random.randrange(lim_min_vel, lim_max_vel, 1)
+        random_velocity_x_neg = random.randrange(-lim_max_vel, -lim_min_vel, 1)
+        random_velocity_y_pos = random.randrange(lim_min_vel, lim_max_vel, 1)
+        random_velocity_y_neg = random.randrange(-lim_max_vel, -lim_min_vel, 1)
 
         random_velocity = (random.choice([random_velocity_x_pos, random_velocity_x_neg]),
                            random.choice([random_velocity_y_pos, random_velocity_y_neg]))

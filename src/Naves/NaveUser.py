@@ -16,7 +16,7 @@ class NaveUser(Nave):
         self.velocity = (0,0)
         self.score = 0
         self.killed_bots = 0
-        self.life = 30
+        self._life = 30
 
     @property
     def velocity(self):
