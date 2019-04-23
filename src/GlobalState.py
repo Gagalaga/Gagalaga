@@ -56,7 +56,8 @@ class GlobalState():
 
         bonus_collided = pygame.sprite.spritecollideany(self.nave, self.bonus, pygame.sprite.collide_mask)
         if bonus_collided != None:
-            self.nave._life += 10
+            if self.nave <= 40:
+                self.nave._life += 10
             self.bonus.remove(bonus_collided)
 
 
