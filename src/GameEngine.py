@@ -170,7 +170,3 @@ class GameEngine:
         print("Quitting pygame in 3 ... 2 ... 1 ...")
         pygame.quit()
 
-    def message_to_screen(self,msg,color):
-        screen_text = font.render(msg, True, color)
-        self.__screen.blit(screen_text,[screen_configs['width']/2,screen_configs['height']/2]) 
-
