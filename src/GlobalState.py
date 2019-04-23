@@ -41,9 +41,12 @@ class GlobalState():
         for bot in bots.keys():
             bot._life = bot._life - 10
 
-        botshot = pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask)
-        if botshot != None:
+        if pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask) != None:
             print("Puta Que Pariu! Vc ganhou esse bloody jogo")
+
+        if pygame.sprite.spritecollideany(self.nave, self.bots, pygame.sprite.collide_mask) != None:
+            print("Perdeu hahahah!")
+
 
     @property
     def all_shots(self):
