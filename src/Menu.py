@@ -16,9 +16,8 @@ class Menu:
             self.message_to_screen("Gagálaga",y_delta = -200)
             #screen.blit(bg, (0,-100))
             #screen.blit(D, (scr_width/2-20,70))
-            self.blockList = [Menu.Retangulo(screen,"Meter o Gagá!",0)
-                    ,Menu.Retangulo(screen,"Mais gagazeiros",100)
-                    ,Menu.Retangulo(screen,"Sugou",200)]
+            self.blockList = [Menu.Retangulo(screen,"Meter o Gagá!",66)
+                    ,Menu.Retangulo(screen,"Sugou",132)]
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -30,18 +29,16 @@ class Menu:
                         self.select -=1
                     elif event.key == pygame.K_DOWN:
                         self.select +=1
-                    if self.select > 2:
+                    if self.select > 1:
                         self.select = 0
                     elif self.select < 0:
-                        self.select = 2
+                        self.select = 1
 
                     if event.key == pygame.K_RETURN:
                         inMenu =False
                         if self.select == 0:
                             pass
                         if self.select == 1:
-                            pass
-                        if self.select == 2:
                             pygame.quit()
                             return
                
