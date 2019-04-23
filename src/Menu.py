@@ -6,10 +6,11 @@ class Menu:
         self.screen = screen
         inMenu = True
         clock = pygame.time.Clock()
-
+        #bg = pygame.image.load('static/Images/Background/Menu_Bgnd.png')
         while inMenu:
             clock.tick(10)
             screen.fill((0,0,0))
+            #screen.blit(bg, (0,0))
             #self.message_to_screen("Use arrows up and down, and enter to select ", y_delta = -200, color = (255, 255, 255))
             self.blockList = [Menu.Retangulo(screen,"Start",-100)
                     ,Menu.Retangulo(screen,"Best Scores",0)
@@ -25,7 +26,12 @@ class Menu:
                         self.select -=1
                     elif event.key == pygame.K_DOWN:
                         self.select +=1
-                    if event.key == pygame.K_KP_ENTER:
+                    if self.select > 2:
+                        self.select = 0
+                    elif self.select < 0:
+                        self.select = 2
+
+                    if event.key == pygame.K_RETURN:
                         inMenu =False
                         if self.select == 0:
                             pass
@@ -34,10 +40,7 @@ class Menu:
                         if self.select == 2:
                             pygame.quit()
                             return
-                if self.select > 2:
-                    self.select = 0
-                elif self.select < 0:
-                    self.select = 2
+               
             selected = self.blockList[self.select]
             pygame.draw.rect(screen, (0,200,0), (selected.x, selected.y, selected.width, selected.height),7)
             pygame.display.update()
@@ -71,6 +74,7 @@ class Menu:
             textSurf, textRect = self.text_objects(text,color)
             textRect.center = self.screen.get_width()/2 , self.screen.get_height()/2+y_delta
             self.screen.blit (textSurf, textRect)
+"""
 pygame.init()
 screen = pygame.display.set_mode((750,800))
 pygame.display.set_caption("Menu")
@@ -78,3 +82,4 @@ menuu = Menu(screen)
 pygame.time.delay(1000)
 pygame.quit()
 quit()
+"""

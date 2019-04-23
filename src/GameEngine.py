@@ -1,5 +1,7 @@
 import pygame
 import time
+
+from src.Menu import Menu
 from src.Background import Background
 from src.GlobalState import GlobalState
 from src.Naves.NaveUser import NaveUser
@@ -140,6 +142,7 @@ class GameEngine:
         """
         print("Initializing pygame in 3 ... 2 ... 1 ...")
         pygame.init()
+        Menu(self.__screen)
 
     def __on_game_over(self):
         self.__screen.display.fill(white)
