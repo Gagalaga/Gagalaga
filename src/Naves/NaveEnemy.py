@@ -40,7 +40,6 @@ class NaveEnemy(Nave):
         self._position = (self._velocity[0] * delta_t + self._position[0],
                           self._velocity[1] * delta_t + self._position[1])
 
-       
         if (self._position[0] < -self._size[0]/2 or self._position[0] + self._size[0]/2 > width):
             self.velocity = (-self.velocity[0], self.velocity[1])
         

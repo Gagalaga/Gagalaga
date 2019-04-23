@@ -20,6 +20,7 @@ class GameEngine:
     def __init__(self, screen):
         self.shot_limiter = 3
         self.random_limiter = 0
+        self.botsshots_limiter = 0
 
         self.__screen = screen
         self._gameover = False
@@ -69,6 +70,7 @@ class GameEngine:
         """
         self.shot_limiter+=1
         self.random_limiter+=1
+        self.botsshots_limiter+=1
 
         delta_t = self.__clock.tick(self.__fps) / 1000
 
@@ -152,9 +154,12 @@ class GameEngine:
         self.random_limiter = 0
 
     def __bots_shooting(self):
-        for bot in self.state.bots.sprites():
-            botshot = bot.shoot_user(self.state.nave.position)
-            self.state.add_botsshots(botshot)
+        if self.botsshots_limiter > self.__fps:
+            for bot in self.state.bots.sprites():
+                if random.random() < 0.2:
+                    botshot = bot.shoot_user(self.state.nave.position)
+                    self.state.add_botsshots(botshot)
+            self.botsshots_limiter = 0
     
     def __collisions(self):
         self.state.handle_collisions()
