@@ -42,6 +42,7 @@ class GlobalState():
         bots = pygame.sprite.groupcollide(self.bots, self.shots, False, True, pygame.sprite.collide_mask)
         for bot in bots.keys():
             bot._life = bot._life - 10
+            self.nave.score += 5
 
         if pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask) != None:
             print("Puta Que Pariu! Vc ganhou esse bloody jogo")

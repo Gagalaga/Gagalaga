@@ -13,8 +13,8 @@ class NaveUser(Nave):
     def __init__(self, screen, position):
         image_dir = "static/Images/Player/player.png"
         Nave.__init__(self, screen, position, image_dir)
-
         self.velocity = (0,0)
+        self.score = 0
 
     @property
     def velocity(self):
