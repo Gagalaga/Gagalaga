@@ -8,6 +8,7 @@ from src.Background import Background
 from src.GlobalState import GlobalState
 from src.Naves.NaveUser import NaveUser
 from src.Naves.NaveEnemy import NaveEnemy
+from src.GameOver import GameOver
 
 from src.Config import color_configs as colors
 from src.Config import screen_configs
@@ -38,11 +39,7 @@ class GameEngine:
         # Particular elements of the game
         # Modifying area
         self.background = [Background(self.__screen, 0), Background(self.__screen, 1)]
-        self.nave = NaveUser(self.__screen, ((1/2)*screen_configs['width'], screen_configs['height']))
-
-        self.state = GlobalState(self.nave, screen)
-
-        self.__initializing_bots(5)
+        
 
     @property
     def _drawables(self):
@@ -52,6 +49,12 @@ class GameEngine:
         """
         A wrapper of the GameEngine's operation
         """
+        self.nave = NaveUser(self.__screen, ((1/2)*screen_configs['width'], screen_configs['height']))
+
+        self.state = GlobalState(self.nave, self.__screen, self)
+
+        self.__initializing_bots(5)
+
         print("Starting Game Loop at ${0} fps".format(self.__fps))
         self.__clock.tick()
         while not self.__ended:
@@ -185,23 +188,9 @@ class GameEngine:
         pygame.init()
         Menu(self.__screen)
 
-    def __on_game_over(self):
-        self.__screen.display.fill(white)
-        self.message_to_screen("Game over, press P to play again or Q to quit", colors['red'])
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                print("pygame.QUIT pressed by user")
-                self.__ended = True
-                self.__on_quit()
-                return
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    self.__ended = True
-                    self.__on_quit()
-                if event.key == pygame.K_p:
-                    self._gameover = False
-                    self.__frame()
+    def on_game_over(self):
+        GameOver(self.__screen, self.state.nave.score)
+        self.game_loop()
 
     def __on_quit(self):
         """

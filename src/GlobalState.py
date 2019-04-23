@@ -4,13 +4,15 @@ from src.bonus import Bonus
 
 class GlobalState():
 
-    def __init__(self, nave, screen):
+    def __init__(self, nave, screen, game_engine):
         self.nave = nave
         self.bots = pygame.sprite.Group()
         self.shots = pygame.sprite.Group()
         self.botsshots = pygame.sprite.Group()
         self.bonus = pygame.sprite.Group()
         self.screen = screen
+
+        self.game_engine_reference = game_engine
 
         self.num_random_bots = 0
 
@@ -48,15 +50,26 @@ class GlobalState():
             bot._life = bot._life - 10
             self.nave.score += 5
 
-        if pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask) != None:
-            print("Puta Que Pariu! Vc ganhou esse bloody jogo")
+        botshot = pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask)
+        if botshot != None:
+            self.remove_botsshots(botshot)
+            if self.nave._life == 10:
+                self.game_engine_reference.on_game_over()
+            else:
+     
+                self.nave._life -= 10
 
-        if pygame.sprite.spritecollideany(self.nave, self.bots, pygame.sprite.collide_mask) != None:
-            print("Perdeu hahahah!")
+        bot = pygame.sprite.spritecollideany(self.nave, self.bots, pygame.sprite.collide_mask)
+        if bot != None:
+            self.remove_bot(bot)
+            if self.nave._life == 10:
+                self.game_engine_reference.on_game_over()
+            else:
+                self.nave._life -= 10
 
         bonus_collided = pygame.sprite.spritecollideany(self.nave, self.bonus, pygame.sprite.collide_mask)
         if bonus_collided != None:
-            if self.nave <= 40:
+            if self.nave._life <= 40:
                 self.nave._life += 10
             self.bonus.remove(bonus_collided)
 
