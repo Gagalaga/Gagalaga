@@ -83,10 +83,6 @@ class GlobalState():
             if shot.out_screen():
                 self.remove_shot(shot)
 
-        #for bot in self.bots:
-        #    if bot.out_screen():
-        #        self.remove_bot(bot)
-
     def remove_dead_ones(self):
         for bot in self.bots.sprites():
             if bot.should_be_dead():
