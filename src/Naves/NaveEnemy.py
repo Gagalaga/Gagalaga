@@ -3,6 +3,7 @@ import math
 import pygame
 
 from src.Naves.Nave import Nave
+from src.GlobalState import GlobalState
 
 
 class NaveEnemy(Nave):
@@ -19,7 +20,8 @@ class NaveEnemy(Nave):
         self._life = hardness*self._life
 
 
-    def shoot_user(self, position_to_shoot):
+    def shoot_user(self):
+        position_to_shoot = GlobalState.getInstance().nave.position
         relative_position = (position_to_shoot[0] - self.position[0],
                              position_to_shoot[1] - self.position[1])
         norm = math.sqrt(relative_position[0]**2 + relative_position[1]**2)

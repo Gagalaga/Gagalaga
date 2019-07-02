@@ -172,7 +172,7 @@ class GameEngine:
         if self.botsshots_limiter > self.__fps:
             for bot in self.state.bots.sprites():
                 if random.random() < 0.2:
-                    botshot = bot.shoot_user(self.state.nave.position)
+                    botshot = bot.shoot_user()
                     self.state.add_botsshots(botshot)
             self.botsshots_limiter = 0
     
