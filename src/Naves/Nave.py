@@ -1,3 +1,5 @@
+from abc import ABC, abstractclassmethod
+
 import pygame
 
 from src.Drawable import Drawable
@@ -5,7 +7,7 @@ from src.Collideable import Collideable
 from src.Shot import Shot
 
 
-class Nave(Drawable, Collideable):
+class Nave(Drawable, Collideable, ABC):
     """
     A class that abstracts the nave from the user.
     Inherits from pygame.Sprite.
@@ -39,9 +41,9 @@ class Nave(Drawable, Collideable):
         displacement = movements * (10)
         self._position = (self._position[0], self._position[1] + displacement)
     
-    def shooting(self, velocity=(0, -100)):
-        shoot = Shot((self._position[0] + self._size[0]/2, self._position[1]), velocity, self._screen, "static/Images/Enemies/Cherry/cherry-gun.png", (15,30))
-        return shoot
+    @abstractclassmethod
+    def shooting(self):
+        raise NotImplementedError
 
     def draw(self):
         self._screen.blit(self._image, self._position)

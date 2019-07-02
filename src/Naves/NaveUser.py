@@ -1,7 +1,7 @@
 import pygame
 
 from src.Naves.Nave import Nave
-from src.Shot import Shot
+from src.Shot import UserShot
 
 
 class NaveUser(Nave):
@@ -27,7 +27,7 @@ class NaveUser(Nave):
         self._velocity = new_velocity
 
     def shooting(self):
-        shoot = Shot((self._position[0] + self._size[0]/2, self._position[1]), (self._velocity[0], self._velocity[1] - 300), self._screen, "static/Images/Player/player-gun.png", (5,10))
+        shoot = UserShot((self._position[0] + self._size[0]/2, self._position[1]), (self._velocity[0], self._velocity[1] - 300), self._screen, "static/Images/Player/player-gun.png", (5,10))
         return shoot
 
     def updates_position(self, delta_t):

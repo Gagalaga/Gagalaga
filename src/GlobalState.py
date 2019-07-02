@@ -1,6 +1,34 @@
+from abc import ABC, abstractclassmethod
+
 import pygame
 
 from src.bonus import Bonus
+
+class GlobalStateAbstract(ABC):
+    @abstractclassmethod
+    def add_bot(self, bot):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def remove_bot(self, bot):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def add_botsshot(self, botsshot):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def remove_botsshot(self, botsshot):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def add_shot(self, shot):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def remove_shot(self, shot):
+        raise NotImplementedError
+
 
 class GlobalState():
     instance = None
@@ -15,7 +43,7 @@ class GlobalState():
     def getInstance(cls):
         return cls.instance
 
-    class __GlobalState():        
+    class __GlobalState(GlobalStateAbstract):        
         def __init__(self, nave, screen, game_engine):
             self.nave = nave
             self.bots = pygame.sprite.Group()
@@ -37,10 +65,10 @@ class GlobalState():
         def remove_bot(self, bot):
             self.bots.remove(bot)
 
-        def add_botsshots(self, botshot):
+        def add_botsshot(self, botshot):
             self.botsshots.add(botshot) 
 
-        def remove_botsshots(self, botshot):
+        def remove_botsshot(self, botshot):
             self.botsshots.remove(botshot)
 
         def add_shot(self, shot):
@@ -64,7 +92,7 @@ class GlobalState():
 
             botshot = pygame.sprite.spritecollideany(self.nave, self.botsshots, pygame.sprite.collide_mask)
             if botshot != None:
-                self.remove_botsshots(botshot)
+                self.remove_botsshot(botshot)
                 if self.nave._life == 10:
                     self.game_engine_reference.on_game_over()
                 else:

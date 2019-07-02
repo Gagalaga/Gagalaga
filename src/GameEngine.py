@@ -113,7 +113,7 @@ class GameEngine:
         Instatiates the bots e saves them into the GlobalState
         """
         for i in range(1,number_bots):
-            self.state.add_bot(NaveEnemy(self.__screen, (400-100*i, 100), (50, 0)))
+            NaveEnemy(self.__screen, (400-100*i, 100), (50, 0))
         
     def __event_handler(self):
         """
@@ -138,7 +138,7 @@ class GameEngine:
         if keys[pygame.K_SPACE]:
             # Anti-apelation control
             if self.shot_limiter > 3:
-                self.state.add_shot(self.nave.shooting())
+                self.nave.shooting()
                 self.shot_limiter = 0
 
     def rate(self):
@@ -162,8 +162,7 @@ class GameEngine:
         random_velocity = (random.choice([random_velocity_x_pos, random_velocity_x_neg]),
                            random.choice([random_velocity_y_pos, random_velocity_y_neg]))
 
-        bot = NaveEnemy(self.__screen, random_position, random_velocity, 4)
-        self.state.add_bot(bot)
+        NaveEnemy(self.__screen, random_position, random_velocity, 4)
         self.state.num_random_bots += 1
 
         self.random_limiter = 0
@@ -172,8 +171,7 @@ class GameEngine:
         if self.botsshots_limiter > self.__fps:
             for bot in self.state.bots.sprites():
                 if random.random() < 0.2:
-                    botshot = bot.shoot_user()
-                    self.state.add_botsshots(botshot)
+                    bot.shooting()
             self.botsshots_limiter = 0
     
     def __collisions(self):
