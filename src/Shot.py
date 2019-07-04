@@ -21,7 +21,7 @@ class Shot(Drawable, Collideable):
 
         pygame.mixer.init()
         shot_sound = pygame.mixer.Sound('./static/sounds/shoot1.wav')
-        shot_sound.set_volume(0.5)
+        shot_sound.set_volume(0)
         shot_sound.play()
 
         Collideable.__init__(self)

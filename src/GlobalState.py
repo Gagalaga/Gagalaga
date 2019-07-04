@@ -1,10 +1,12 @@
 import pygame
 from src.bonus import Bonus
-
-
-class GlobalState():
+# from src.GameInterface import GameInterface
+# from src.GlobalStateInterface import GlobalStateInterface
+class GlobalState( ):
 
     def __init__(self, nave, screen, game_engine):
+        # self.interface = GameInterface()
+
         self.nave = nave
         self.bots = pygame.sprite.Group()
         self.shots = pygame.sprite.Group()
@@ -92,3 +94,6 @@ class GlobalState():
                     self.bonus.add(Bonus(self.screen, bot.position, "static/Images/Degrees/L.png"))
                     self.nave.killed_bots = 0
                 self.remove_bot(bot)
+    
+    def add_element(self):
+        pass

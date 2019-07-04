@@ -3,7 +3,7 @@ import random
 import math
 import pygame
 
-from src.Menu import Menu
+from src.MenuInicial import MenuInicial
 from src.Background import Background
 from src.GlobalState import GlobalState
 from src.Naves.NaveUser import NaveUser
@@ -12,7 +12,7 @@ from src.GameOver import GameOver
 
 from src.Config import color_configs as colors
 from src.Config import screen_configs
-
+from src.Messenger import Messenger
 class GameEngine:
     """
     A fundamental class that abstracts the game's components' operation.
@@ -21,6 +21,8 @@ class GameEngine:
     def __init__(self, screen):
         self.time = 0
         
+        self.messenger = Messenger(screen)
+        # self.interface = GameInterface()
         self.shot_limiter = 3
         self.random_limiter = 0
         self.botsshots_limiter = 0
@@ -89,7 +91,7 @@ class GameEngine:
         self.__event_handler()
         
         while self._gameover == True:
-            self.__on_game_over
+            self.on_game_over()
 
         if self.__ended:
             return
@@ -188,7 +190,7 @@ class GameEngine:
         """
         print("Initializing pygame in 3 ... 2 ... 1 ...")
         pygame.init()
-        Menu(self.__screen)
+        MenuInicial(self.__screen)
 
     def on_game_over(self):
         GameOver(self.__screen, self.state.nave.score)
@@ -219,11 +221,7 @@ class GameEngine:
 
 
     def __message_to_screen(self, text, color = (226,161,9)):
-        textSurf, textRect = self.text_objects(text,color)
-        textRect.center = self.__screen.get_width()-80, 30
-        self.__screen.blit (textSurf, textRect)
+        self.messenger.message_to_screen(x_delta = self.__screen.get_width()/2-60
+        ,y_delta = -self.__screen.get_height()/2+30,text = text, color = color, size = 60)
 
-    def text_objects(self, text , color):
-            font = pygame.font.SysFont('Arial Black', 40)
-            textSurface = font.render(text, True , color)
-            return textSurface, textSurface.get_rect()
+    
